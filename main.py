@@ -1,8 +1,24 @@
 # main.py
 
 from chatbot.bot import ChatBot
-from chatbot.config import other_params, system_prompt, known_actions, action_re
+from chatbot.config import other_params, system_prompt
+from chatbot.actions import known_actions, action_re
+
 def query(question, max_turns=5):
+    """
+    Executes a chatbot query to answer a given question.
+    
+    Args:
+        question (str): The question to be answered.
+        max_turns (int, optional): The maximum number of turns allowed for the query. Defaults to 5.
+    
+    Returns:
+        str: The answer to the question.
+    
+    Raises:
+        Exception: If the bot encounters an unknown action.
+    
+    """
     bot = ChatBot(system=system_prompt)
     next_prompt = question
     i = 0
@@ -14,7 +30,16 @@ def query(question, max_turns=5):
             action, action_input = actions[0].groups()
             if action not in known_actions:
                 raise Exception(f"Unknown action: {action}: {action_input}")
+            else:
+                print('aha',actions)
+                print()
+                print()
+
+
             observation = known_actions[action](action_input)
+            print(observation)
+            print()
+            print()
             next_prompt = f"Observation: {observation}"
         else:
             return result

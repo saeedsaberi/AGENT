@@ -1,11 +1,13 @@
-import os
-from chatbot.actions import wikipedia, calculate, plot, plot_schematic, generate_schematic_image, action_re
+# chatbot/settings.py
 
+import os
 # API Configuration
 api_config = {
     "openai_api_key": os.environ.get("OPENAI_API_KEY", "your-default-api-key"),
+    "google_API_KEY": os.environ.get("google_API_KEY", "your-default-api-key"),
+    "bing_API_KEY": os.environ.get("bing_API_KEY", "your-default-api-key"),
+    "bing_url": "https://api.bing.microsoft.com/v7.0/search"
 }
-
 # Model Configuration
 model_config = {
     "default_model": "gpt-4o-mini",
@@ -19,12 +21,10 @@ other_params = {
     "retry_attempts": 3,
 }
 
-known_actions = {
-    "wikipedia": wikipedia,
-    "calculate": calculate,
-    "plot": plot,
-}
+SAVE_DIR = "result_image"
+os.makedirs(SAVE_DIR, exist_ok=True)
 
+# System Prompt Configuration
 system_prompt = """
 You run in a loop of Thought, Action, PAUSE, Observation.
 At the end of the loop, you output an Answer.
@@ -74,36 +74,4 @@ Observation: France is a country. The capital is Paris.
 You then output:
 
 Answer: The capital of France is Paris.
-
-Example session with schematics:
-
-Question: Can you show me how data flows through a neural network?
-Thought: I should generate a schematic for the neural network's data flow.
-Action: plot_schematic: "Create a schematic for the flow of data in a neural network from input layer to output layer."
-PAUSE
-
-You will be called again with this:
-
-Observation: [Textual description of the schematic]
-
-Thought: I should generate an image for this schematic.
-Action: generate_schematic_image: "[Textual description of the schematic]"
-PAUSE
-
-You will be called again with this:
-
-Observation: [Base64 image or image file path]
-
-You then output:
-
-Answer: Here is the schematic of how data flows through a neural network.
 """
-
-
-known_actions = {
-    "wikipedia": wikipedia,
-    "calculate": calculate,
-    "plot": plot,
-    "plot_schematic": plot_schematic,
-    "generate_schematic_image": generate_schematic_image
-}

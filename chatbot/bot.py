@@ -1,4 +1,4 @@
-import re, openai
+import openai
 from .config import api_config, model_config
 
 openai.api_key = api_config['openai_api_key']
@@ -19,9 +19,13 @@ class ChatBot:
         return result
    
     def execute(self):
-        print(self.model,self.messages)
+        """
+        Execute the chatbot and get the response.
+        """
+        # Create a chat completion with the current messages
         completion = openai.chat.completions.create(
             model= self.model, 
             messages=self.messages
         )
+        # Return the content of the first choice
         return completion.choices[0].message.content

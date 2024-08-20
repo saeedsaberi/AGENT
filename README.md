@@ -1,7 +1,7 @@
 # AGENTIC AI Project
 
 This project implements a simple chatbot using OpenAI's API. The bot is capable of answering questions by searching Wikipedia, performing calculations, and more.
-![Flowchart of Chatbot Workflow](./images/flow.webp)
+![Flowchart of Chatbot Workflow](./images/AGENT.webp)
 
 ## Installation
 

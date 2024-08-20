@@ -48,4 +48,42 @@ def plot(data):
     return f"data:image/png;base64,{img_str}"
 
 
+
+def plot_schematic(prompt):
+    """
+    Use GPT-4 to generate a description for a schematic diagram.
+    
+    Parameters:
+    - prompt: str, the initial prompt to instruct GPT-4 on what schematic to create.
+    
+    Returns:
+    - str, the detailed textual description of the schematic.
+    """
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "system", "content": "You are an expert in creating schematic descriptions."},
+                  {"role": "user", "content": prompt}]
+    )
+    schematic_description = response['choices'][0]['message']['content']
+    return schematic_description
+
+def generate_schematic_image(description):
+    """
+    Use DALL-E to generate a schematic image based on a detailed description.
+    
+    Parameters:
+    - description: str, the detailed schematic description from GPT-4.
+    
+    Returns:
+    - image, the generated image from DALL-E or a similar tool.
+    """
+    from dalle import text2im  # Ensure you have the appropriate import for DALL-E API
+    
+    image = text2im({
+        "prompt": description,
+        "size": "1024x1024"
+    })
+    return image
+
+
 action_re = re.compile('^Action: (\w+): (.*)$')

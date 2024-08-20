@@ -59,11 +59,12 @@ def plot_schematic(prompt):
     - str, the detailed textual description of the schematic.
     """
     response = openai.completions.create(
-        model="gpt-4",
-        messages=[{"role": "system", "content": "You are an expert in creating schematic descriptions."},
+            model= model_config['default_model'],
+            messages=[{"role": "system", "content": "You are an expert in creating schematic descriptions."},
                   {"role": "user", "content": prompt}]
-    )
-    schematic_description = response['choices'][0]['message']['content']
+        )
+    
+    schematic_description = response.choices[0].message.content
     return schematic_description
 
 def generate_schematic_image(description):

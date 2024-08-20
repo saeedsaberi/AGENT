@@ -24,7 +24,7 @@ class ChatBot:
         """
         # Create a chat completion with the current messages
         completion = openai.chat.completions.create(
-            model= self.model, 
+            model= self.model,
             messages=self.messages
         )
         # Return the content of the first choice

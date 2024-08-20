@@ -1,19 +1,18 @@
 import os
 import openai
 from openai import OpenAI
+from .config import openai_api_key, default_model
+openai.api_key = openai_api_key
 
-
-openai.api_key = os.environ["OPENAI_API_KEY"]
 messages = [{"role": "system", "content": "You are an intelligent assistant."}]
    
 
 client = OpenAI(api_key=openai.api_key)
 
 
-MODEL="gpt-4"
 
 completion = client.chat.completions.create(
-  model=MODEL,
+  model=default_model,
   messages=[
     {"role": "system", "content": "You are a helpful assistant that helps me with my math homework!"},
     {"role": "user", "content": "Hello! Could you solve 20 x 5?"}

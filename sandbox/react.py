@@ -55,22 +55,26 @@ prompt = """
         e.g. wikipedia: Django
         Returns a summary from searching Wikipedia
 
-        simon_blog_search:
-        e.g. simon_blog_search: Django
-        Search Simon's blog for that term
+        search_internet:
+        e.g. search_internet: Quantum Gravity Theories
+        Searches the internet for the given query, ranks the results, and provides a summary with citations.
 
         Always look things up on Wikipedia if you have the opportunity to do so.
 
         Example session:
 
         Question: What is the capital of France?
-        Thought: I should look up France on Wikipedia
+        Thought: I should look up France on Wikipedia.
         Action: wikipedia: France
         PAUSE
 
         You will be called again with this:
 
         Observation: France is a country. The capital is Paris.
+
+        You then output:
+
+        Answer: The capital of France is Paris.
 
         You then output:
 
@@ -136,6 +140,6 @@ def calculate(what):
 known_actions = {
     "wikipedia": wikipedia,
     "calculate": calculate,
-    "simon_blog_search": simon_blog_search
+    "search_internet": search_internet
 }
 query("what are the most important quantum gravity theories, rank them and explain why and explain their approach")

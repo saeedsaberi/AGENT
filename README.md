@@ -4,7 +4,7 @@ This project implements a simple chatbot using OpenAI's API. The bot is capable 
 ![Flowchart of Chatbot Workflow](./images/AGENT.webp)
 
 examle of the resulting schematics:
-![result](./result_image/schematic_image.png)
+>>![result](./result_image/schematic_image.png)
 
 example result, explaining quantum gravity theories:
 >> next_prompt wikipedia performed, resulting in Observation: competing <span class="searchmatch">theories</span> which have been proposed. Thought experiment approaches have been suggested as a testing tool for <span class="searchmatch">quantum</span> <span class="searchmatch">gravity</span> <span class="searchmatch">theories</span>. In the field, next_prompt: what are the most important quantum gravity theories, rank them and explain why and explain their approach, plotschematics images to explain better

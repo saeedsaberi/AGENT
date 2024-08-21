@@ -31,12 +31,14 @@ def query(question, max_turns=5):
 
 
             observation = known_actions[action](action_input)
-            next_prompt = f"{action} performed, resulting in Observation: {observation}, next_prompt: {next_prompt}"
-            print()
-            print()
-            print('next_prompt',next_prompt)
+            next_prompt = f"""{action} performed, resulting in Observation: {observation}, 
+                            next_prompt: {next_prompt}\n"""
+ 
         else:
-            return result
+            print(result)
+            print()
+            # print(next_prompt)
 
+            return result
 if __name__ == "__main__":
     query("what are the most important quantum gravity theories, rank them and explain why and explain their approach, plotschematics images to explain better")

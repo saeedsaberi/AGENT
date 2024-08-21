@@ -1,5 +1,5 @@
 #.gitignore
-result_image
+# result_image
 __pycache__/
 *.pyc
 .env

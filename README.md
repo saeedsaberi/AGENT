@@ -4,7 +4,7 @@ This project implements a simple chatbot using OpenAI's API. The bot is capable 
 ![Flowchart of Chatbot Workflow](./images/AGENT.webp)
 
 examle of the resulting schematics:
-![Flowchart of Chatbot Workflow](./result_image/result_image/schematic_image.png)
+![result](./result_image/result_image/schematic_image.png)
 
 ## Installation
 

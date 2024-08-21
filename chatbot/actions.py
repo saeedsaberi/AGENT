@@ -1,6 +1,8 @@
 import os, re, io, base64, httpx, openai, requests
 from .config import  model_config, SAVE_DIR
 import matplotlib.pyplot as plt
+from .config import api_config  # Importing config when needed
+
 # import dalle, asyncio
 # from dalle import text2im  
 from urllib.parse import urljoin
@@ -18,16 +20,26 @@ def calculate(what):
     return eval(what)
 
 
-def plot(data):
+def plot_line(data, save_path=SAVE_DIR +"/plot.png"):
     """
-    Plot the given data and return the base64 encoded image.
+    Plot the given data, save the image to a file, and return the base64 encoded image.
     The data is expected to be a list of (x, y) tuples.
+    
+    Parameters:
+    - data: str, a string representing a list of (x, y) tuples, e.g., "[(1, 2), (2, 3), (3, 4)]"
+    - save_path: str, the file path where the plot image will be saved.
+    
+    Returns:
+    - str, the base64 encoded image.
     """
     # Parse the data assuming it's in the form of a string of tuples
     points = eval(data)  # Example input: "[(1, 2), (2, 3), (3, 4)]"
 
     # Separate the points into x and y coordinates
     x, y = zip(*points)
+
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
     # Create the plot
     plt.figure()
@@ -36,6 +48,9 @@ def plot(data):
     plt.xlabel("X-axis")
     plt.ylabel("Y-axis")
 
+    # Save the plot to a file
+    plt.savefig(save_path)
+    
     # Save the plot to a BytesIO object
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
@@ -46,28 +61,10 @@ def plot(data):
     img_str = base64.b64encode(buf.read()).decode('utf-8')
 
     # Return the base64 string
-    return f"data:image/png;base64,{img_str}"
+    return f"data:image/png;base64, line plotted and saved to {save_path}"
 
-def plot_schematic(prompt):
-    """
-    Use GPT-4 to generate a description for a schematic diagram.
-    
-    Parameters:
-    - prompt: str, the initial prompt to instruct GPT-4 on what schematic to create.
-    
-    Returns:
-    - str, the detailed textual description of the schematic.
-    """
-    response = openai.completions.create(
-            model= model_config['default_model'],
-            messages=[{"role": "system", "content": "You are an expert in creating schematic descriptions."},
-                  {"role": "user", "content": prompt}]
-        )
-    
-    schematic_description = response.choices[0].message.content
-    return schematic_description
 
-def generate_schematic_image(description):
+def generate_schematic_image(description,  size="1792x1024"):
     """
     Use DALL-E to generate a schematic image based on a detailed description.
     
@@ -83,7 +80,7 @@ def generate_schematic_image(description):
     response = client.images.generate(
         model   = "dall-e-3",
         prompt  = description,
-        size    = "256x256",
+        size    = size,
         quality = "standard",
         n       = 1,
     )
@@ -91,15 +88,16 @@ def generate_schematic_image(description):
 
     # Get the image content
     image_content = requests.get(image_url).content
-
-    image_path = os.path.join(SAVE_DIR, "generated_image.png")
+    save_dir = "result_image"
+    os.makedirs(SAVE_DIR, exist_ok=True)
+    image_path = os.path.join(SAVE_DIR, "schematic_image.png")
 
     # Save the image
     with open(image_path, "wb") as image_file:
         image_file.write(image_content)
 
     # Return the path to the saved image
-    return image_path
+    return f" schematics plotted and saved to {image_path}"
 
 
 def search_internet(query):
@@ -112,7 +110,6 @@ def search_internet(query):
     Returns:
     - str, a summary of the search results.
     """
-    from .config import api_config  # Importing config when needed
     bing_API_KEY = api_config['bing_API_KEY']
     bing_url = api_config['bing_url']
     
@@ -121,7 +118,7 @@ def search_internet(query):
     
     if response.status_code == 200:
         search_results = response.json()
-        print("DEBUG: search_results JSON:", search_results)  # Debugging line
+        # print("DEBUG: search_results JSON:", search_results)  # Debugging line
         
         if 'webPages' in search_results and 'value' in search_results['webPages']:
             snippets = [item.get('snippet', 'No snippet available') for item in search_results['webPages']['value']]
@@ -145,24 +142,42 @@ def summarize_with_llm(text):
     Returns:
     - str, the summary of the text.
     """
-    response = openai.completions.create(
+    client = openai.OpenAI(api_key=openai.api_key)
+
+
+    completion = client.chat.completions.create(
         model=model_config['default_model'],
         messages=[
             {"role": "system", "content": "You are an expert in summarizing information."},
             {"role": "user", "content": f"Please summarize the following content:\n\n{text}"}
         ]
     )
-    summary = response.completion.choices[0].message.content
+    summary = completion.choices[0].message.content
     return summary
+
+def ask_user(question):
+    """
+    Ask a clarifying question to the user.
+
+    Parameters:
+    - question: str, the question to ask the user.
+
+    Returns:
+    - str, the user's response.
+    """
+    # Simulate asking the question to the user (In a real system, this would involve interacting with the user interface)
+    user_response = input(f"Clarification needed: {question}\nYour response: ")
+    
+    return user_response
 
 
 known_actions = {
     "wikipedia": wikipedia,
     "calculate": calculate,
-    "plot": plot,
-    "plot_schematic": plot_schematic,
+    "plot_line": plot_line,
     "generate_schematic_image": generate_schematic_image,
     "search_internet": search_internet, 
+    "ask_user": ask_user
 }
 
 

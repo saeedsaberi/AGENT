@@ -1,5 +1,3 @@
-# main.py
-
 from chatbot.bot import ChatBot
 from chatbot.config import other_params, system_prompt
 from chatbot.actions import known_actions, action_re
@@ -30,19 +28,15 @@ def query(question, max_turns=5):
             action, action_input = actions[0].groups()
             if action not in known_actions:
                 raise Exception(f"Unknown action: {action}: {action_input}")
-            else:
-                print('aha',actions)
-                print()
-                print()
 
 
             observation = known_actions[action](action_input)
-            print(observation)
+            next_prompt = f"{action} performed, resulting in Observation: {observation}, next_prompt: {next_prompt}"
             print()
             print()
-            next_prompt = f"Observation: {observation}"
+            print('next_prompt',next_prompt)
         else:
             return result
 
 if __name__ == "__main__":
-    query("what are the most important quantum gravity theories, rank them and explain why and explain their approach")
+    query("what are the most important quantum gravity theories, rank them and explain why and explain their approach, plotschematics images to explain better")

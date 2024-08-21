@@ -6,6 +6,7 @@ This project implements a simple chatbot using OpenAI's API. The bot is capable 
 examle of the resulting schematics:
 ![result](./result_image/schematic_image.png)
 
+
 ## Installation
 
 1. Clone the repository.

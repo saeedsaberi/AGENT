@@ -12,7 +12,7 @@ class UnknownActionError(Exception):
         super().__init__(self.message)
 
 
-def query(question, max_turns=5):
+def query(question, max_turns=other_params.max_turns):
     """
     Executes a chatbot query to answer a given question.
     

@@ -3,7 +3,7 @@
 import os
 # API Configuration
 api_config = {
-    "openai_api_key": os.environ.get("OPENAI_API_KEY", "your-default-api-key"),
+    "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY", "your-default-api-key"),
     "google_API_KEY": os.environ.get("google_API_KEY", "your-default-api-key"),
     "bing_API_KEY": os.environ.get("bing_API_KEY", "your-default-api-key"),
     "bing_url": "https://api.bing.microsoft.com/v7.0/search"

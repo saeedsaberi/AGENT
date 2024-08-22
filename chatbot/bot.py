@@ -1,7 +1,6 @@
 import openai
 from .config import api_config, model_config
-
-openai.api_key = api_config['openai_api_key']
+openai.api_key = api_config['OPENAI_API_KEY']
 
 
 class ChatBot:

@@ -19,6 +19,7 @@ model_config = {
 other_params = {
     "max_turns": 5,
     "retry_attempts": 3,
+    "max_pages": 5
 }
 
 SAVE_DIR = "result_image"

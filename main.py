@@ -38,11 +38,13 @@ def query(question, max_turns=5):
             action, action_input = actions[0].groups()
             if action not in known_actions:
                 raise UnknownActionError(action, action_input)
+            elif action=='search_internet':
+                observation = known_actions[action](question, action_input)
+            else:                  
+                observation = known_actions[action](action_input)
 
-
-            observation = known_actions[action](action_input)
             next_prompt = f"""{action} performed, resulting in Observation: {observation}, 
-                            next_prompt: {next_prompt}\n"""
+                                next_prompt: {next_prompt}\n"""
  
         else:
             print(result)

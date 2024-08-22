@@ -13,7 +13,7 @@ The AGENTIC AI system processes user queries through a structured and well-defin
 2. **Agentic AI Process**: The central AI process interprets the query and decides which action to take based on the query's context. The AI is equipped with the ability to make decisions autonomously, selecting the most appropriate action to fulfill the user's request.
 
 3. **Known Actions**: The AI can perform several predefined actions, including:
-   - **Search Internet**: Fetches relevant information from the web and ranks it based on relevance.
+   - **Search Internet**: The AI fetches relevant information from the web. The retrieved snippets are then ranked based on their relevance to the query. After ranking, the top-ranked snippets are summarized using GPT to provide a concise and accurate response.
    - **Plot Line**: Creates visual plots based on the data provided and saves the result as an image.
    - **Generate Schematic**: Uses AI tools to create schematic images based on a detailed description.
    - **Ask User**: Seeks clarification from the user if the input query is ambiguous or requires further details.
@@ -30,3 +30,25 @@ This flow ensures that the AI effectively uses available tools to generate the m
 
 ### Example Result: Explaining Quantum Gravity Theories
 
+
+## Installation
+
+1. Clone the repository.
+2. Install the dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. Set up your environment variable for the OpenAI API key:
+
+    ```bash
+    export OPENAI_API_KEY='your-api-key-here'
+    ```
+
+## Usage
+
+To start the chatbot, run the `main.py` file:
+
+```bash
+python main.py

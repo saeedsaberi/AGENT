@@ -23,4 +23,4 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.dev.txt
     - name: Lint with Pylint
-      run: pylint src/
+      run: pylint chatbot/

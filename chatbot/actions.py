@@ -121,11 +121,19 @@ def search_internet(query):
         # print("DEBUG: search_results JSON:", search_results)  # Debugging line
         
         if 'webPages' in search_results and 'value' in search_results['webPages']:
+            ### get the multiple snippets from the search
             snippets = [item.get('snippet', 'No snippet available') for item in search_results['webPages']['value']]
             full_text = "\n".join(snippets)
-            
+            print(full_text)
+
             # Summarize the content using GPT-4
             summary = summarize_with_llm(full_text)
+
+            print()
+            print()
+            print()
+            print(summary)
+
             return summary
         else:
             return "Error: No webPages or value found in search results."
@@ -167,7 +175,6 @@ def ask_user(question):
     """
     # Simulate asking the question to the user (In a real system, this would involve interacting with the user interface)
     user_response = input(f"Clarification needed: {question}\nYour response: ")
-    
     return user_response
 
 

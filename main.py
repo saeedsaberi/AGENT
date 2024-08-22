@@ -2,6 +2,16 @@ from chatbot.bot import ChatBot
 from chatbot.config import other_params, system_prompt
 from chatbot.actions import known_actions, action_re
 
+
+class UnknownActionError(Exception):
+    """Exception raised when the bot encounters an unknown action."""
+    def __init__(self, action, action_input):
+        self.action = action
+        self.action_input = action_input
+        self.message = f"Unknown action: {action} with input: {action_input}"
+        super().__init__(self.message)
+
+
 def query(question, max_turns=5):
     """
     Executes a chatbot query to answer a given question.
@@ -27,7 +37,7 @@ def query(question, max_turns=5):
         if actions:
             action, action_input = actions[0].groups()
             if action not in known_actions:
-                raise Exception(f"Unknown action: {action}: {action_input}")
+                raise UnknownActionError(action, action_input)
 
 
             observation = known_actions[action](action_input)

@@ -128,12 +128,6 @@ def search_internet(query):
 
             # Summarize the content using GPT-4
             summary = summarize_with_llm(full_text)
-
-            print()
-            print()
-            print()
-            print(summary)
-
             return summary
         else:
             return "Error: No webPages or value found in search results."
